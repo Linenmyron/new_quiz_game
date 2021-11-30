@@ -63,15 +63,28 @@ function restartTheGame() {
     theGame();
 }
 
+function showGameScore() {
+    finalScore.innerHTML = gameScore;
+    if(gameScore === 20) {
+        message.innerHTML = "Good job";
+        audioPlayer.src = gameSounds[1];
+    } else if (gameScore > 0 && gameScore < 20) {
+        message.innerHTML = "Nice, more practcing and you can do it";
+        audioPlayer.src = gameSounds[1];
+    } else {
+        message.innerHTML = "Oh no, what happend";
+        audioPlayer.src = gameSounds[0];
+    }
+    audioPlayer.play();
+}
+
 /**
  * Visar slut resultatet
  */
 function endGame() {
-    console.log("endgame");
     gameBox.style.display = 'none';
     resultBox.style.display = 'block';
-    finalScore.innerHTML = gameScore;
-
+    showGameScore();
 }
 
 
@@ -82,8 +95,7 @@ function endGame() {
  * Spelar upp ljud beroende på svaret.
  */
 function answer(answer_nr) {
-    console.log(total_questions, question_nr);
-    if (current_step < total_questions) {
+    if (current_step <= total_questions) {
         if (question_nr === 0 && answer_nr === 2 || 
             question_nr === 1 && answer_nr === 3){
             gameScore += 10;
@@ -97,8 +109,9 @@ function answer(answer_nr) {
         question_nr += 1;
         current_step += 1;
         theGame();
-    } else {
-        console.log("test");
+    } 
+    
+    if (current_step > total_questions){
         endGame();
     }
     
@@ -108,4 +121,3 @@ function answer(answer_nr) {
  * Initialiserar spelet och startar upp spelet med första frågan
  */
 theGame();
-
